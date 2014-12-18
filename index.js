@@ -33,7 +33,7 @@
         ctx.lineWidth=1;
         ctx.fillStyle="#CCCCCC";
         ctx.font="16px sans-serif";
-        ctx.fillText(""+width+"x"+height, 10, 25);
+        ctx.fillText(""+width+"x"+height+"@"+scale+"x", 10, 25);
 
         requestAnimationFrame(update);
     }
