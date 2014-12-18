@@ -10,7 +10,7 @@
         };
     })();
 
-    var width, height,
+    var width, height, scale,
         canvas, ctx,
         particles,
         didInit;
@@ -42,8 +42,9 @@
         canvas = document.getElementById("canvas") || document.createElement("canvas");
         canvas.id = 'canvas';
         document.body.appendChild(canvas);
-        ctx = canvas.getContext("2d");
         resizeCanvas();
+        ctx = canvas.getContext("2d");
+        ctx.scale(scale, scale);
 
         particles = [];
 
@@ -55,12 +56,11 @@
     }
 
     function resizeCanvas(){
-        var scale = window.devicePixelRatio || 1;
+        scale = window.devicePixelRatio || 1;
         canvas.width = width = window.innerWidth * scale;
         canvas.height = height = window.innerHeight * scale;
         canvas.style.width = window.innerWidth + 'px';
         canvas.style.height = window.innerHeight + 'px';
-        ctx.scale(scale, scale);
     }
 
     function mouseMove(e){
