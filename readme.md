@@ -1,4 +1,2 @@
-basic template for a canvas app
-==
-particles are neat.
+Having fun with particles in a canvas.
 

@@ -17,6 +17,10 @@
     var circ;
     // define number of particles that can exist at one time
     var NUM_PARTICLES = 1000;
+    var bg_color = "#33CCFF"; //rgb(51, 204, 255)
+    var bg_update_color = 'rgb(51, 204, 255, 0.3)';
+    var circ_color = "#FFCC00";
+    var particle_color = "#00FF00";
 
     function Particle(x,y){
         //generate a random offset for a spawned particle
@@ -35,14 +39,14 @@
     }
 
     Circle.prototype.draw = function() {
-        context.fillStyle = "#FF0000";
+        context.fillStyle = circ_color;
         context.beginPath();
         context.arc(this.x,this.y,this.r,0,2*Math.PI);
         context.fill();
     }
 
     function update(){
-        context.fillStyle = 'rgba(32,32,32,0.3)';
+        context.fillStyle = bg_color;
         context.fillRect(0, 0, width, height);
         circ.draw();
         
@@ -55,10 +59,10 @@
             }
         }
 
-        context.fillStyle = 'rgba(255,255,255,1)';
+        context.fillStyle = particle_color;
         for (var i=0;i<particles.length;++i) {
             var p = particles[i];
-            context.fillRect(p.x, p.y, 2, 2);
+            context.fillRect(p.x, p.y, 3, 3);
         }
 
         context.lineWidth=1;
@@ -79,7 +83,7 @@
         context.scale(scale, scale);
 
         particles = [];
-        circ = new Circle(width*0.5,height*0.5,50, 0, 0); //currently centred
+        circ = new Circle(width*0.5,height*0.5,50, 0, 0); // centred
 
         if(!didInit){
             didInit = true;
