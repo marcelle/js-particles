@@ -15,10 +15,15 @@
         particles,
         didInit;
     var circ;
+    // define number of particles that can exist at one time
+    var NUM_PARTICLES = 1000;
 
     function Particle(x,y){
-        this.x = x+Math.random()*32-16; //note: not an int
-        this.y = y+Math.random()*32-16;
+        //generate a random offset for a spawned particle
+        var angle = Math.random()*2*Math.PI;
+        var dist = Math.random()*64;
+        this.x = x+Math.cos(angle)*dist;
+        this.y = y-Math.sin(angle)*dist;
     }
 
     function Circle(x,y,r,vx,vy) {
@@ -40,8 +45,15 @@
         context.fillStyle = 'rgba(32,32,32,0.3)';
         context.fillRect(0, 0, width, height);
         circ.draw();
+        
+        if (touchdown) {
+            particles.push(new Particle(touchx,touchy));
+            particles.push(new Particle(touchx,touchy));
 
-
+            while (particles.length > NUM_PARTICLES) {
+                particles.shift();
+            }
+        }
 
         context.fillStyle = 'rgba(255,255,255,1)';
         for (var i=0;i<particles.length;++i) {
@@ -88,11 +100,12 @@
 
     function mouseMove(e){
         particles.push(new Particle(e.x,e.y));
-        if (particles.length > 10) {
+        if (particles.length > NUM_PARTICLES) {
             particles.shift();
         }
     }
-
+    var touchdown = false;
+    var touchx, touchy;
     function bindEvents(){
         window.addEventListener('resize', init);
         window.addEventListener('mousemove', mouseMove);
@@ -100,6 +113,20 @@
             e.preventDefault();
             var touch = e.changedTouches[0];
             mouseMove({'x':touch.clientX,'y':touch.clientY});
+            touchx = touch.clientX;
+            touchy = touch.clientY;
+        });
+        window.addEventListener('touchstart', function(e){
+            var touch = e.changedTouches[0];
+            mouseMove({'x':touch.clientX,'y':touch.clientY});
+            touchdown = true;
+            touchx = touch.clientX;
+            touchy = touch.clientY;
+        });
+        window.addEventListener('touchend', function(e){
+            var touch = e.changedTouches[0];
+            mouseMove({'x':touch.clientX,'y':touch.clientY});
+            touchdown = false;
         });
     }
 
